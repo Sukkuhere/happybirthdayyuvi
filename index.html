@@ -17,26 +17,28 @@
 html,body{margin:0;min-height:100%}
 body{
   font-family:Sora,system-ui,sans-serif; color:var(--text); line-height:1.55; overflow-x:hidden;
+  background:var(--bg); -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent;
+}
+body::before{content:""; position:fixed; top:0; left:0; right:0; bottom:0; z-index:-1; pointer-events:none;
   background:
     radial-gradient(900px 500px at 15% 10%,rgba(140,28,52,.5),transparent 60%),
     radial-gradient(800px 500px at 90% 30%,rgba(240,214,168,.12),transparent 60%),
     linear-gradient(180deg,#25080f 0%,#1a0509 100%);
-  background-attachment:fixed;
 }
 
 /* ---------- waves ---------- */
-.waves{position:fixed; left:0; right:0; bottom:0; height:38vh; pointer-events:none; z-index:0}
-.waves div{position:absolute; inset:auto 0 0 0; background-repeat:repeat-x; background-size:1440px 100%}
+.waves{position:fixed; left:0; right:0; bottom:0; height:38vh; pointer-events:none; z-index:0; overflow:hidden}
+.waves div{position:absolute; bottom:0; left:0; width:calc(100% + 1440px); background-repeat:repeat-x; background-size:1440px 100%; will-change:transform}
 .w1{height:100%; opacity:.55; animation:drift 30s linear infinite;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath fill='%236b1428' d='M0,160 C240,100 480,220 720,160 C960,100 1200,220 1440,160 L1440,320 L0,320Z'/%3E%3C/svg%3E")}
 .w2{height:75%; opacity:.6; animation:drift 20s linear infinite reverse;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath fill='%23460c1b' d='M0,160 C240,100 480,220 720,160 C960,100 1200,220 1440,160 L1440,320 L0,320Z'/%3E%3C/svg%3E")}
 .w3{height:50%; opacity:.9; animation:drift 14s linear infinite;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath fill='%23280710' d='M0,160 C240,100 480,220 720,160 C960,100 1200,220 1440,160 L1440,320 L0,320Z'/%3E%3C/svg%3E")}
-@keyframes drift{to{background-position-x:-1440px}}
+@keyframes drift{to{transform:translateX(-1440px)}}
 
 /* ---------- shell ---------- */
-.shell{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:20px 16px 40px; display:flex; flex-direction:column; gap:16px; min-height:100vh}
+.shell{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:20px 16px 40px; display:flex; flex-direction:column; gap:16px; min-height:100vh; min-height:100dvh}
 .glass{background:var(--glass); border:1px solid var(--edge); backdrop-filter:blur(22px) saturate(1.4); -webkit-backdrop-filter:blur(22px) saturate(1.4); box-shadow:0 20px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08)}
 
 .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 20px; border-radius:99px}
@@ -48,11 +50,12 @@ body{
 
 .panel{flex:1; border-radius:36px; padding:18px; display:flex; flex-direction:column; justify-content:center}
 section{display:none}
-section.on{display:grid; grid-template-columns:200px 1fr; gap:16px; align-items:stretch}
+section.on{display:grid; grid-template-columns:200px minmax(0,1fr); gap:16px; align-items:stretch}
 
 .side{border-radius:26px; padding:22px; display:flex; flex-direction:column; justify-content:space-between; gap:20px; background:linear-gradient(160deg,rgba(140,28,52,.5),rgba(255,236,210,.05))}
 .num{font-size:5.5rem; line-height:.9; font-weight:200; letter-spacing:-.04em}
 .tag{color:var(--muted); font-size:.85rem; line-height:1.4}
+.main,.side{min-width:0; overflow-wrap:break-word; word-break:break-word}
 .main{border-radius:26px; padding:28px; display:flex; flex-direction:column; justify-content:center; gap:18px}
 h1{font-size:clamp(1.7rem,5vw,2.4rem); line-height:1.15; margin:0; font-weight:600; letter-spacing:-.02em}
 h2{font-size:1.4rem; line-height:1.3; margin:0; font-weight:600}
@@ -61,18 +64,20 @@ p{margin:0}
 .fb{min-height:1.6em; font-weight:600; color:var(--cyan)}
 
 button{
+  -webkit-appearance:none; appearance:none; touch-action:manipulation;
   font:inherit; font-weight:600; color:var(--text); cursor:pointer;
   background:var(--glass2); border:1px solid var(--edge); border-radius:16px; padding:14px 18px;
   transition:transform .12s, background .2s, border-color .2s, box-shadow .2s;
 }
-button:hover{background:rgba(255,236,210,.17); border-color:rgba(255,215,180,.5)}
+@media (hover:hover){button:hover{background:rgba(255,236,210,.17); border-color:rgba(255,215,180,.5)}}
 button:active{transform:scale(.98)}
 button:focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
 .primary{background:linear-gradient(135deg,#a22a49,#6b1022); border-color:transparent; box-shadow:0 8px 24px rgba(140,28,52,.5)}
-.primary:hover{background:linear-gradient(135deg,#b83557,#7d1830)}
+@media (hover:hover){.primary:hover{background:linear-gradient(135deg,#b83557,#7d1830)}}
 
 .opts{display:flex; flex-direction:column; gap:10px}
 .opts button{width:100%; min-height:54px; display:flex; align-items:center; gap:14px; text-align:left}
+.opts button>span:last-child{min-width:0; overflow-wrap:anywhere; word-break:break-word}
 .chip{flex:none; width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-size:.8rem; background:rgba(255,255,255,.1); color:var(--muted)}
 .opts button.right{background:rgba(52,211,153,.2); border-color:rgba(52,211,153,.7)}
 .opts button.wrong{background:rgba(251,113,133,.18); border-color:rgba(251,113,133,.6); animation:shake .35s}
@@ -92,6 +97,9 @@ button:focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
 .song{display:none; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px 10px 18px; border-radius:99px; font-size:.85rem; color:var(--muted)}
 .song.on{display:flex}
 .song button{padding:8px 14px; border-radius:99px; font-size:.85rem}
+.song button{white-space:nowrap; flex:none}
+.song>span{min-width:0}
+.bars{flex:none}
 .bars{display:inline-flex; gap:3px; align-items:flex-end; height:14px; margin-right:8px}
 .bars i{width:3px; background:var(--cyan); border-radius:2px; animation:eq 1s ease-in-out infinite}
 .bars i:nth-child(2){animation-delay:.2s}.bars i:nth-child(3){animation-delay:.4s}
@@ -102,7 +110,9 @@ button:focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
 @keyframes up{from{opacity:1; transform:translateY(0) rotate(0)}to{opacity:0; transform:translateY(-80vh) rotate(25deg)}}
 
 @media (max-width:640px){
-  section.on{grid-template-columns:1fr}
+  .side.glass,.main.glass{backdrop-filter:none; -webkit-backdrop-filter:none; background:rgba(40,10,18,.55)}
+  .panel.glass{backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px)}
+  section.on{grid-template-columns:minmax(0,1fr)}
   .side{flex-direction:row; align-items:center; padding:16px 20px}
   .num{font-size:3rem}
   .main{padding:22px}
@@ -227,11 +237,14 @@ function confetti(){ const em=["🎉","🤎","🎂","✨","🥳","❤️"]; for(
 
 /* ---------- song: starts only when the letter opens ---------- */
 let audio=null;
-function prepAudio(){ if(!audio&&CONFIG.songFile){ audio=new Audio(CONFIG.songFile); audio.preload="auto"; audio.volume=.85; audio.onended=()=>$("song").classList.remove("on") } }
+function prepAudio(){ if(!audio&&CONFIG.songFile){ audio=new Audio(CONFIG.songFile); audio.preload="auto"; audio.load(); audio.volume=.85; audio.onended=()=>$("song").classList.remove("on") } }
 function playSong(){
   if(!audio) return;
-  audio.currentTime=0;
-  audio.play().then(()=>{ $("song").classList.add("on"); $("song").classList.remove("paused"); $("pp").textContent="Pause" }).catch(()=>{});
+  try{ audio.currentTime=0 }catch(e){}
+  const ok=()=>{ $("song").classList.add("on"); $("song").classList.remove("paused"); $("pp").textContent="Pause" };
+  const blocked=()=>{ $("song").classList.add("on","paused"); $("pp").textContent="Play" };
+  const pr=audio.play();
+  if(pr&&pr.then) pr.then(ok).catch(blocked); else ok();
 }
 $("pp").onclick=()=>{ if(!audio) return;
   if(audio.paused){ audio.play(); $("pp").textContent="Pause"; $("song").classList.remove("paused") }
